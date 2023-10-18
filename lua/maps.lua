@@ -17,11 +17,11 @@ end
 local tele = require("telescope.builtin")
 
 -- See `:help telescope.builtin`
-local find_unrestricted = function()
+local find_unrestricted = function ()
     tele.find_files({ find_command = { "rg", "--hidden", "--files", "--unrestricted" } })
 end
 
-local grep_args = function()
+local grep_args = function ()
     require("telescope").extensions.live_grep_args.live_grep_args()
 end
 
@@ -93,7 +93,7 @@ nmap("<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Documentation" })
 nmap("gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration" })
 nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "[W]orkspace [A]dd Folder" })
 nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, { desc = "[W]orkspace [R]emove Folder" })
-nmap("<leader>wl", function()
+nmap("<leader>wl", function ()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 end, { desc = "[W]orkspace [L]ist Folders" })
 
@@ -104,8 +104,10 @@ nmap("<leader>bu", "<cmd>bufdo update<cr>", { desc = "[u]pdate" })
 -- [a]dvanced stuff
 nmap("<leader>aa", vim.lsp.buf.code_action, { desc = "code [a]ction" })
 nmap("<leader>ac", vim.lsp.buf.rename, { desc = "[c]hange name" })
-nmap("<leader>ad", function()
-    vim.diagnostic.open_float({ source = true })
+nmap("<leader>ad", function ()
+    vim.diagnostic.open_float({
+        source = true,
+    })
 end, { desc = "[d]iagnostic float" })
 nmap("<leader>af", vim.lsp.buf.format, { desc = "[f]ormat" })
 nmap("<leader>ah", vim.lsp.buf.hover, { desc = "[h]over" })
@@ -117,14 +119,14 @@ nmap(",", "<plug>(leap-forward-to)", { desc = "leap" })
 nmap("<leader>s", "<plug>(leap-forward-to)", { desc = "leap" })
 nmap("<leader>S", "<plug>(leap-backward-to)", { desc = "leap backward" })
 nmap("gs", "<plug>(leap-from-window)", { desc = "leap to other window" })
-nmap("<leader>r", function()
+nmap("<leader>r", function ()
     vim.o.relativenumber = not vim.o.rnu
 end, {
     desc = "toggle [r]elative number",
 })
 nmap("<leader>d", "<c-w>", { desc = "win[d]ow functions" })
 
-nmap("<leader><tab>", function()
+nmap("<leader><tab>", function ()
     vim.o.expandtab = not vim.o.expandtab
 end, { desc = "toggle expandtab [<tab>]" })
 
@@ -161,11 +163,11 @@ nmap("N", "Nzzzv")
 map("v", "J", ":m '>+1<cr>gv=gv")
 map("v", "K", ":m '<-2<cr>gv=gv")
 
-nmap("+", function()
+nmap("+", function ()
     vim.o.foldlevel = math.min(vim.o.foldlevel + 1, 15)
     print("foldlevel: " .. vim.o.foldlevel)
 end)
-nmap("-", function()
+nmap("-", function ()
     vim.o.foldlevel = math.max(vim.o.foldlevel - 1, 0)
     print("foldlevel: " .. vim.o.foldlevel)
 end)

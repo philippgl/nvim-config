@@ -52,7 +52,7 @@ require("lazy").setup({
     },
 
     -- Useful plugin to show you pending keybinds.
-    { "folke/which-key.nvim", opts = {} },
+    { "folke/which-key.nvim",  opts = {} },
     {
         -- Adds git related signs to the gutter, as well as utilities for managing changes
         "lewis6991/gitsigns.nvim",
@@ -65,7 +65,7 @@ require("lazy").setup({
                 topdelete = { text = "‾" },
                 changedelete = { text = "~" },
             },
-            on_attach = function(bufnr)
+            on_attach = function (bufnr)
                 vim.keymap.set(
                     "n",
                     "<leader>gh",
@@ -75,20 +75,20 @@ require("lazy").setup({
 
                 -- don't override the built-in and fugitive keymaps
                 local gs = package.loaded.gitsigns
-                vim.keymap.set({ "n", "v" }, "]c", function()
+                vim.keymap.set({ "n", "v" }, "]c", function ()
                     if vim.wo.diff then
                         return "]c"
                     end
-                    vim.schedule(function()
+                    vim.schedule(function ()
                         gs.next_hunk()
                     end)
                     return "<Ignore>"
                 end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
-                vim.keymap.set({ "n", "v" }, "[c", function()
+                vim.keymap.set({ "n", "v" }, "[c", function ()
                     if vim.wo.diff then
                         return "[c"
                     end
-                    vim.schedule(function()
+                    vim.schedule(function ()
                         gs.prev_hunk()
                     end)
                     return "<Ignore>"
@@ -134,7 +134,7 @@ require("lazy").setup({
                 -- NOTE: If you are having trouble with this installation,
                 --       refer to the README for telescope-fzf-native for more instructions.
                 build = "make",
-                cond = function()
+                cond = function ()
                     return vim.fn.executable("make") == 1
                 end,
             },
@@ -162,6 +162,18 @@ require("lazy").setup({
     {
         -- More linters...
         "mfussenegger/nvim-lint",
+        config = function ()
+            require("lint").linters_by_ft = {
+                dockerfile = { "hadolint" },
+                markdown = { "proselint" },
+                sh = { "shellcheck" },
+            }
+            vim.api.nvim_create_autocmd({ "BufWinEnter", "BufWritePost" }, {
+                callback = function ()
+                    require("lint").try_lint()
+                end,
+            })
+        end,
     },
 
     {
