@@ -109,7 +109,7 @@ nmap("<leader>ad", function ()
         source = true,
     })
 end, { desc = "[d]iagnostic float" })
-nmap("<leader>af", vim.lsp.buf.format, { desc = "[f]ormat" })
+nmap("<leader>af", require("conform").format, { desc = "[f]ormat" })
 nmap("<leader>ah", vim.lsp.buf.hover, { desc = "[h]over" })
 nmap("<leader>al", vim.diagnostic.setloclist, { desc = "diagnostics to [l]oclist" })
 nmap("<leader>aq", vim.diagnostic.setqflist, { desc = "diagnostics to [q]uickfix list" })
