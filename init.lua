@@ -35,7 +35,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.cmd.colorscheme("philg")
 
 -- this also imports the plugins in lua/plugins
-require("setup.lazy")
+require("setup-lazy")
 
 require("options")
 
@@ -49,18 +49,11 @@ vim.keymap.set({ "n", "v" }, "s", "<Nop>", { silent = true })
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-    callback = function()
+    callback = function ()
         vim.highlight.on_yank()
     end,
     group = highlight_group,
     pattern = "*",
 })
-
-require("setup.telescope")
-require("setup.treesitter")
-require("setup.rainbow")
-require("setup.lsp")
-require("setup.cmp")
-require("setup.lualine")
 
 require("maps")

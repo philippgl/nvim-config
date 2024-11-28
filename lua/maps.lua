@@ -50,7 +50,7 @@ nmap("<leader>tr", tele.lsp_references, { desc = "[r]eferences" })
 nmap("<leader>ts", tele.lsp_document_symbols, { desc = "[s]ymbols (document/lsp)" })
 nmap("<leader>tt", tele.treesitter, { desc = "[t]reesitter" })
 nmap("<leader>tu", find_unrestricted, { desc = "[u]nrestricted files" })
-nmap("<leader>tw", tele.lsp_workspace_symbols, { desc = "[w]orkspace symbols" })
+-- nmap("<leader>tw", tele.lsp_workspace_symbols, { desc = "[w]orkspace symbols" })
 
 -- [f]uzzy search
 nmap("<leader>f?", tele.oldfiles, { desc = "[?] Find recently opened files" })
@@ -72,7 +72,7 @@ nmap("<leader>fr", tele.lsp_references, { desc = "[r]eferences" })
 nmap("<leader>fs", tele.lsp_document_symbols, { desc = "[s]ymbols (document/lsp)" })
 nmap("<leader>ft", tele.treesitter, { desc = "[t]reesitter" })
 nmap("<leader>fu", find_unrestricted, { desc = "[u]nrestricted files" })
-nmap("<leader>fw", tele.lsp_workspace_symbols, { desc = "[w]orkspace symbols" })
+-- nmap("<leader>fw", tele.lsp_workspace_symbols, { desc = "[w]orkspace symbols" })
 
 -- [g]it
 nmap("<leader>gf", tele.git_files, { desc = "[g]it [f]iles" })
@@ -125,6 +125,22 @@ end, {
     desc = "toggle [r]elative number",
 })
 nmap("<leader>d", "<c-w>", { desc = "win[d]ow functions" })
+
+local harpoon = require("harpoon")
+vim.keymap.set("n", "<leader>h", function () harpoon:list():add() end)
+vim.keymap.set("n", "<C-e>", function () harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+vim.keymap.set("n", "<C-a>", function () harpoon:list():select(1) end)
+vim.keymap.set("n", "<C-s>", function () harpoon:list():select(2) end)
+vim.keymap.set("n", "<C-g>", function () harpoon:list():select(3) end)
+vim.keymap.set("n", "<C-h>", function () harpoon:list():select(4) end)
+vim.keymap.set("n", "<C-j>", function () harpoon:list():select(5) end)
+vim.keymap.set("n", "<C-k>", function () harpoon:list():select(6) end)
+vim.keymap.set("n", "<C-l>", function () harpoon:list():select(7) end)
+
+-- Toggle previous & next buffers stored within Harpoon list
+vim.keymap.set("n", "<C-S-P>", function () harpoon:list():prev() end)
+vim.keymap.set("n", "<C-S-N>", function () harpoon:list():next() end)
 
 nmap("<leader><tab>", function ()
     vim.o.expandtab = not vim.o.expandtab
@@ -192,16 +208,6 @@ imap("X>>", "")
 imap("O>>", "")
 imap("X<<", "")
 imap("O<<", "")
-
--- document existing key chains
-require("which-key").register({
-    ["<leader>a"] = { name = "[A]dvanced", _ = "which_key_ignore" },
-    ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-    ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-    ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
-    ["<leader>t"] = { name = "[T]elescope", _ = "which_key_ignore" },
-    ["<leader>f"] = { name = "[f]uzzy search (= telescope)", _ = "which_key_ignore" },
-})
 
 vim.api.nvim_command("command! -bang -nargs=* -complete=file E e<bang> <args>")
 vim.api.nvim_command("command! -bang -nargs=* -complete=file W w<bang> <args>")

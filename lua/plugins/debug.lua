@@ -13,6 +13,7 @@ return {
     dependencies = {
         -- Creates a beautiful debugger UI
         "rcarriga/nvim-dap-ui",
+        "nvim-neotest/nvim-nio",
 
         -- Installs the debug adapters for you
         "williamboman/mason.nvim",
@@ -21,7 +22,7 @@ return {
         -- Add your own debuggers here
         "leoluz/nvim-dap-go",
     },
-    config = function()
+    config = function ()
         local dap = require("dap")
         local dapui = require("dapui")
 
@@ -53,7 +54,7 @@ return {
             dap.toggle_breakpoint,
             { desc = "Debug: Toggle Breakpoint" }
         )
-        vim.keymap.set("n", "<leader>B", function()
+        vim.keymap.set("n", "<leader>B", function ()
             dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
         end, { desc = "Debug: Set Breakpoint" })
 
