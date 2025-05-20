@@ -1,3 +1,16 @@
+local disable_function = function (lang, buf)
+    local max_filesize = 200 * 1024 -- 200 KB
+    local buf_name = vim.api.nvim_buf_get_name(buf)
+    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+    if ok and stats and stats.size > max_filesize then
+        return true
+    end
+    if lang == "cpp" and string.find(buf_name, ".pb.") then
+        return true
+    end
+    return false
+end
+
 return {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
@@ -26,7 +39,7 @@ return {
         -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
         auto_install = false,
 
-        highlight = { enable = true },
+        highlight = { enable = true, disable = disable_function },
         indent = { enable = true },
         incremental_selection = {
             enable = true,

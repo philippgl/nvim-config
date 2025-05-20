@@ -50,5 +50,25 @@ vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 vim.o.foldmethod = "expr"
 vim.o.foldlevel = 4
 
-vim.o.listchars = "eol:$,tab:↦»,trail:»,extends:»,precedes:»,nbsp:‾"
+vim.o.listchars = "tab:↦»,trail:»,extends:»,precedes:»,nbsp:‾"
 vim.o.list = true
+
+-- Disable syntax highlighting, folding and spell checking for large files
+-- tree sitter is handled in the tree sitter plugin
+local aug = vim.api.nvim_create_augroup("buf_large", { clear = true })
+vim.api.nvim_create_autocmd({ "BufReadPre" }, {
+    callback = function ()
+        local ok, stats = pcall(vim.loop.fs_stat,
+            vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))
+        if ok and stats and (stats.size > 500000) then
+            vim.b.large_buf = true
+            vim.cmd("syntax off")
+            vim.opt_local.foldmethod = "manual"
+            vim.opt_local.spell = false
+        else
+            vim.b.large_buf = false
+        end
+    end,
+    group = aug,
+    pattern = "*",
+})
