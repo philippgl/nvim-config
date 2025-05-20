@@ -1,4 +1,3 @@
-
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 
@@ -11,7 +10,9 @@
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-    clangd = {},
+    clangd = {
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "hpp" },
+    },
     -- gopls = {},
     -- pyright = {},
     -- run ":PylspInstall pylsp-mypy python-lsp-black pylsp-rope python-lsp-ruff"
@@ -27,7 +28,13 @@ local servers = {
             },
         },
     },
-    -- rust_analyzer = {},
+    rust_analyzer = {
+        ["rust-analyzer"] = {
+            check = {
+                command = "clippy",
+            },
+        },
+    },
     -- tsserver = {},
     html = { filetypes = { "html", "twig", "hbs" } },
 
@@ -47,24 +54,24 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 return {
 
-        -- LSP Configuration & Plugins
-        "neovim/nvim-lspconfig",
-        dependencies = {
-            -- Automatically install LSPs to stdpath for neovim
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
+    -- LSP Configuration & Plugins
+    "neovim/nvim-lspconfig",
+    dependencies = {
+        -- Automatically install LSPs to stdpath for neovim
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
 
-            "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-nvim-lsp",
 
-            -- Useful status updates for LSP
-            -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-            { "j-hui/fidget.nvim", tag = "legacy", opts = {} },
+        -- Useful status updates for LSP
+        -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+        { "j-hui/fidget.nvim", tag = "legacy", opts = {} },
 
-            -- Additional lua configuration, makes nvim stuff amazing!
-            { "folke/neodev.nvim", opts = {} },
-        },
+        -- Additional lua configuration, makes nvim stuff amazing!
+        { "folke/neodev.nvim", opts = {} },
+    },
 
-    config = function()
+    config = function ()
         capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
         -- Ensure the servers above are installed
@@ -85,5 +92,6 @@ return {
                 })
             end,
         })
+        require "lspconfig".protols.setup({})
     end
 }
