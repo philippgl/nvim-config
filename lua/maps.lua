@@ -79,6 +79,16 @@ nmap("<leader>gf", tele.git_files, { desc = "[g]it [f]iles" })
 -- " Find merge conflict markers
 nmap("<leader>gc", "/\v^[<\\|=>]{7}( .*\\|$)<cr>", { desc = "[g]it [c]onflict marker" })
 
+vim.keymap.set("n", "<leader>K", function ()
+    local new_config = not vim.diagnostic.config().virtual_lines
+    vim.diagnostic.config({ virtual_lines = new_config })
+end, { desc = "Toggle diagnostic virtual_lines" })
+
+vim.keymap.set("n", "<leader>k", function ()
+    local new_config = not vim.diagnostic.config().virtual_text
+    vim.diagnostic.config({ virtual_text = new_config })
+end, { desc = "Toggle diagnostic virtual_text" })
+
 map({ "n", "v" }, ",", "<Nop>", { silent = true })
 
 nmap("gd", vim.lsp.buf.definition, { desc = "[g]oto [d]efinition" })
